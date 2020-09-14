@@ -1,18 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- Including head -->
+<jsp:include page="../includes/head.jsp">
+	<jsp:param name="title" value="All courses" />
+</jsp:include>
+<!-- -------------- -->
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>App Academy - Courses</title>
-</head>
-<body>
+<div class="container">
+	
+	<h2 class="my-5">All courses</h2>
 
-	<h2>All courses</h2>
-
-	<table id="table" class="tabla table table-striped">
+	<table id="table" class="table table-striped"> <!-- id used for Datatables plugin -->
 
 		<thead>
 
@@ -44,5 +42,8 @@
 
 	</table>
 
-</body>
-</html>
+</div>
+
+<!-- Including foot -->
+<%@include file="../includes/foot.jsp"%>
+<!-- -------------- -->
