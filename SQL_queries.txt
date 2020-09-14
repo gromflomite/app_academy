@@ -1,0 +1,4 @@
+---------------------------
+list()
+SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', p.id AS 'id_professor', p.name AS 'name_professor', p.surname AS 'surname_professor' FROM courses AS c, professors AS p WHERE c.id_professor = p.id;
+---------------------------
