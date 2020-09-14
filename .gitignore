@@ -1,0 +1,5 @@
+# Excluded folders and files from git
+/target/
+/.classpath
+/.settings/
+/.project
