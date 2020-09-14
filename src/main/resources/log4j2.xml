@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE xml>
+
+<Configuration status="FATAL" name="appAcademy"> <!-- status -> To show the Log4j 2 components log, in this case, just the FATAL ones -->
+
+	<Appenders>
+
+		<!-- File appender -->
+		<File name="FILE-LOG" fileName="/appAcademy_logs/appAcademy.log" append="TRUE">
+			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" />
+		</File>
+		
+		<!-- Make appender asynchronous in order to increase performance - Check documentation for drawbacks -->
+		<Async name="async">			
+            <AppenderRef ref="FILE-LOG"/>
+        </Async>
+
+		<!-- Console appender -->
+		<Console name="CONSOLE-LOG" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | (%F:%L) - %m%n" />
+		</Console>
+		
+	</Appenders>	
+
+	<Loggers>
+
+		<Logger name="appAcademy-log" level="TRACE" additivity="FALSE"> <!-- additivity="false" -> Avoid duplicate logs -->
+			<Appender-ref ref="FILE-LOG" />
+			<Appender-ref ref="CONSOLE-LOG" />								
+		</Logger>
+
+	</Loggers>
+
+</Configuration>

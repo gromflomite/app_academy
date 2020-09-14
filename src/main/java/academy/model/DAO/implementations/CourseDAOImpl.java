@@ -5,12 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import academy.model.ConnectionManager;
 import academy.model.DAO.CourseDAO;
 import academy.model.pojo.Course;
 import academy.model.pojo.Professor;
 
 public class CourseDAOImpl implements CourseDAO {
+    
+    private final static Logger LOGGER = LogManager.getLogger("appAcademy-log");
 
     // SQL queries **************************************************
     private final String SQL_QUERY_GETALL = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', p.id AS 'id_professor', p.name AS 'name_professor', p.surname AS 'surname_professor' FROM courses AS c, professors AS p WHERE c.id_professor = p.id; ";
@@ -29,7 +34,9 @@ public class CourseDAOImpl implements CourseDAO {
 	    INSTANCE = new CourseDAOImpl();
 	}
 
-	return INSTANCE;
+	LOGGER.info("Instantiated new DAO");
+	
+	return INSTANCE;	
     }
     // End Singleton pattern ****************************************
 
@@ -40,8 +47,10 @@ public class CourseDAOImpl implements CourseDAO {
 
 	try (
 		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GETALL); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GETALL);		
 		ResultSet resultSet = preparedStatement.executeQuery()) {
+	    
+	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
 	    while (resultSet.next()) {
 
@@ -64,14 +73,14 @@ public class CourseDAOImpl implements CourseDAO {
 
 		// Add all values to course ArrayList
 		courses.add(dbCourse);
-
+		
 	    }
 
 	} catch (Exception e) {
-	    // TODO: handle exception
-	    e.printStackTrace();
-	}
-
+	    LOGGER.error(e);
+	    
+	} 
+	
 	return courses;
     }
 
