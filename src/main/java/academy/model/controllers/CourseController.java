@@ -18,7 +18,7 @@ import academy.model.pojo.Course;
 @WebServlet("/courses")
 public class CourseController extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private final static long serialVersionUID = 1L;
     private final static Logger LOGGER = LogManager.getLogger("appAcademy-log");
     private final static CourseDAOImpl courseDAO = CourseDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
 
