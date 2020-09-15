@@ -7,7 +7,7 @@ public class Course {
     private String identifier;
     private int hours;
     private int id_professor_course;
-    private Professor professor;
+    private User professor;
 
     public Course() {
 	super();
@@ -16,7 +16,7 @@ public class Course {
 	this.identifier = "";
 	this.hours = 0;
 	this.id_professor_course = 0;
-	this.professor = new Professor();
+	this.professor = new User();
     }
 
     public int getId() {
@@ -59,11 +59,11 @@ public class Course {
 	this.id_professor_course = id_professor_course;
     }
 
-    public Professor getProfessor() {
+    public User getProfessor() {
 	return professor;
     }
 
-    public void setProfessor(Professor professor) {
+    public void setProfessor(User professor) {
 	this.professor = professor;
     }
 
