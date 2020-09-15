@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import academy.model.DAO.implementations.UserDAOImpl;
+import academy.model.pojo.Feedback;
 import academy.model.pojo.User;
 
 @WebServlet("/login")
@@ -32,11 +33,11 @@ public class LogInController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	LOGGER.info("doPost() method called");
-	
+
 	// Get the values from the view (login.jsp)
 	String userName = request.getParameter("userName");
 	String userPassword = request.getParameter("userPassword");
-	
+
 	LOGGER.debug("Login values received from view (login.jsp): " + userName + " - " + userPassword);
 
 	// Get session
@@ -44,7 +45,7 @@ public class LogInController extends HttpServlet {
 
 	// Call the DAO
 	User userLoginDetails = userDAO.exists(userName, userPassword);
-	
+
 	LOGGER.debug("Called DAO - Received values: " + userLoginDetails);
 
 	if (userLoginDetails != null) {
@@ -52,15 +53,17 @@ public class LogInController extends HttpServlet {
 	    // Set attribute to session
 	    session.setAttribute("userLoginDetails", userLoginDetails);
 
+	    // Set feedback
+	    request.setAttribute("feedback", new Feedback("success", "Welcome again!!"));
+
 	    if (userLoginDetails.getRole() == User.ROL_STUDENT) {
 		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
-		
+
 		LOGGER.info("Student logged: " + userLoginDetails.getName());
-		
 
 	    } else {
 		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
-		
+
 		LOGGER.info("Professor logged: " + userLoginDetails.getName());
 
 	    }
@@ -69,8 +72,11 @@ public class LogInController extends HttpServlet {
 
 	    LOGGER.info("Incorrect login values entered");
 	    
+	    // Set feedback
+	    request.setAttribute("feedback", new Feedback("warning", "Username or password not correct!!"));
+
 	    // Invalidate session
-	    session.invalidate();	    
+	    session.invalidate();
 
 	    // Go back to loging page
 	    request.getRequestDispatcher("views/login.jsp").forward(request, response);

@@ -99,7 +99,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Alain','Moles',2,'123456'),(2,'Ander ','Uraga',2,'123456'),(3,'Manolo','Santos',2,'123456'),(4,'Diego','Velázquez',1,'123456'),(5,'Francisco','Goya',1,'123456'),(6,'Joan','Miro',1,'123456'),(7,'Salvador','Dalí',1,'123456');
+INSERT INTO `users` VALUES (1,'Alain','Moles',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander ','Uraga',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Manolo','Santos',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Diego','Velázquez',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Francisco','Goya',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Joan','Miro',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Salvador','Dalí',1,'e10adc3949ba59abbe56e057f20f883e');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-15  9:35:04
+-- Dump completed on 2020-09-15 13:49:52
