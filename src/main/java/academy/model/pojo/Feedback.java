@@ -5,10 +5,16 @@ public class Feedback {
     private String type;
     private String message;
 
-    public Feedback(String type, String message) {
+    public Feedback() {
 	super();
 	this.type = "";
 	this.message = "";
+    }
+
+    public Feedback(String type, String message) {
+	this();
+	this.type = type;
+	this.message = message;
     }
 
     public String getType() {
