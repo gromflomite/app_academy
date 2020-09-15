@@ -31,6 +31,7 @@ public class CourseDAOImpl implements CourseDAO {
     public static synchronized CourseDAOImpl getInstance() {
 
 	if (INSTANCE == null) {
+	    
 	    INSTANCE = new CourseDAOImpl();
 	}
 

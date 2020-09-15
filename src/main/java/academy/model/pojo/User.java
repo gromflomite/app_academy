@@ -17,7 +17,7 @@ public class User {
 	this.id = 0;
 	this.name = "";
 	this.surname = "";
-	this.role = ROL_STUDENT; // We use student as default. Just a personal option
+	this.role = 0;
 	this.password = "123456";
     }
 

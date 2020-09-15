@@ -31,7 +31,8 @@ CREATE TABLE `courses` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `courses_un` (`name`),
   UNIQUE KEY `courses_un_identifier` (`identifier`),
-  CONSTRAINT `FK_course_needs_professor` FOREIGN KEY (`id`) REFERENCES `professors` (`id`)
+  KEY `FK_courses_need_professor` (`id_professor`),
+  CONSTRAINT `FK_courses_need_professor` FOREIGN KEY (`id_professor`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table of courses.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -43,58 +44,6 @@ LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
 INSERT INTO `courses` VALUES (1,'Microsoft Office 2016','I001',50,1),(2,'Experto en Desarrollo de Aplicaciones WEB y Bases de Datos','I002',630,2),(3,'Desarrollo Avanzado con JAVA/JEE','I003',510,3);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `professors`
---
-
-DROP TABLE IF EXISTS `professors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `professors` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `surname` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `professors_un` (`name`,`surname`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table of professors.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `professors`
---
-
-LOCK TABLES `professors` WRITE;
-/*!40000 ALTER TABLE `professors` DISABLE KEYS */;
-INSERT INTO `professors` VALUES (1,'Alain','Moles'),(2,'Ander','Uraga'),(3,'Pepito','Piscinas');
-/*!40000 ALTER TABLE `professors` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `students`
---
-
-DROP TABLE IF EXISTS `students`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `students` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `surname` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `students_un` (`name`,`surname`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='Table of students.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `students`
---
-
-LOCK TABLES `students` WRITE;
-/*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (3,'Asier','Mintegui'),(2,'Beatriz','Martinez'),(1,'Elier','Otero'),(4,'Lander','Bilbao');
-/*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -111,8 +60,8 @@ CREATE TABLE `students_course` (
   PRIMARY KEY (`id`),
   KEY `students_course_FK` (`id_student`),
   KEY `students_course_FK_1` (`id_course`),
-  CONSTRAINT `students_course_FK` FOREIGN KEY (`id_student`) REFERENCES `students` (`id`),
-  CONSTRAINT `students_course_FK_1` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id`)
+  CONSTRAINT `FK_course_needs_student` FOREIGN KEY (`id_student`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_studenst_needs_course` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='Table of students and their courses.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,8 +71,36 @@ CREATE TABLE `students_course` (
 
 LOCK TABLES `students_course` WRITE;
 /*!40000 ALTER TABLE `students_course` DISABLE KEYS */;
-INSERT INTO `students_course` VALUES (1,1,1),(2,1,2),(3,2,1),(4,2,3),(5,3,2),(6,3,3),(7,4,1),(8,4,3);
+INSERT INTO `students_course` VALUES (1,4,1),(2,4,2),(3,5,1),(4,5,3),(5,6,2),(6,6,3),(7,7,1),(8,7,3);
 /*!40000 ALTER TABLE `students_course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `surname` varchar(100) NOT NULL,
+  `role` int(11) NOT NULL COMMENT '1 -> Student - 2 -> Professor',
+  `password` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_un` (`surname`,`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='Table of users.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Alain','Moles',2,'123456'),(2,'Ander ','Uraga',2,'123456'),(3,'Manolo','Santos',2,'123456'),(4,'Diego','Velázquez',1,'123456'),(5,'Francisco','Goya',1,'123456'),(6,'Joan','Miro',1,'123456'),(7,'Salvador','Dalí',1,'123456');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -139,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-14 11:38:32
+-- Dump completed on 2020-09-15  9:35:04
