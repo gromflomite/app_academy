@@ -33,7 +33,7 @@ CREATE TABLE `courses` (
   UNIQUE KEY `courses_un_identifier` (`identifier`),
   KEY `FK_courses_need_professor` (`id_professor`),
   CONSTRAINT `FK_courses_need_professor` FOREIGN KEY (`id_professor`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table of courses.';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='Table of courses.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Alain','Moles',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander ','Uraga',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Manolo','Santos',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Diego','Velázquez',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Francisco','Goya',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Joan','Miro',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Salvador','Dalí',1,'e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `users` VALUES (1,'Alain','Dextra',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander ','Mirlo',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Manolo','Loriente',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Diego','Velázquez',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Francisco','Goya',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Joan','Miro',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Salvador','Dalí',1,'e10adc3949ba59abbe56e057f20f883e');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-15 13:49:52
+-- Dump completed on 2020-09-16 19:52:37

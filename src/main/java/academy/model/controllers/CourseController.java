@@ -33,12 +33,6 @@ public class CourseController extends HttpServlet {
 	
 	LOGGER.debug("getRequestDispatcher(\"/views/courses.jsp\") called - Values forwarded to view: " + dbCourses);
 
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	doGet(request, response); // Using only doGet()
-
-    }
+    }   
 
 }

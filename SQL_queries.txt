@@ -1,7 +1,27 @@
----------------------------
-Check user login
-SELECT u.id AS 'id_user', u.name AS 'name_user', u.surname AS 'surname_user', u.role AS 'role_user', u.password AS 'password_user' FROM users AS u WHERE name = ? AND password = MD5(?);
----------------------------
-List all courses
-SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor', u.role AS 'user_role' FROM courses AS c, users AS u WHERE c.id_professor = u.id;
----------------------------
+USE app_academy;
+
+/* --------------- CourseDAOImpl --------------- */
+
+/* SQL_QUERY_DELETE_COURSE	 -----------------------------------------------
+DELETE FROM courses WHERE courses.id = ? AND courses.id_professor = ?;
+-----------------------------------------------*/
+
+/* SQL_QUERY_CREATE_COURSE -----------------------------------------------
+INSERT INTO courses (name, identifier, hours, id_professor) VALUES (?, ?, ?, ?);
+-----------------------------------------------*/  
+  
+/* SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID -----------------------------------------------
+SELECT c.id AS 'id_course', c.hours AS 'hour_course', c.name AS 'name_course', c.id_professor AS 'id_professor_course', c.identifier AS 'identifier_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses AS c, users AS u WHERE c.id_professor = u.id AND c.id_professor = ?; 
+-----------------------------------------------*/ 
+
+
+/* SQL_QUERY_GET_ALL_COURSES -----------------------------------------------
+SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor', u.role AS 'user_role'  FROM courses AS c, users AS u WHERE c.id_professor = u.id;
+-----------------------------------------------*/ 
+
+
+/* --------------- UserDAOImpl --------------- */
+
+/* SQL_QUERY_CHECKUSER -----------------------------------------------
+SELECT u.id AS 'id_user', u.name AS 'name_user', u.surname AS 'surname_user', u.role AS 'role_user', u.password AS 'password_user' FROM users AS u WHERE name = ? AND password = MD5('?');
+-----------------------------------------------*/

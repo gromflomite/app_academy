@@ -165,7 +165,7 @@ public class CourseDAOImpl implements CourseDAO {
 	    
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
-	    if (dbUpdatedRows == 1) {
+	    if (dbUpdatedRows == 1) { // Course properly deleted
 
 		courseDeletedOk = true;
 

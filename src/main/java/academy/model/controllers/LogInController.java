@@ -25,13 +25,6 @@ public class LogInController extends HttpServlet {
     private static final UserDAOImpl userDAO = UserDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
     private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	// Using just doPost()
-	doPost(request, response);
-
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	LOGGER.info("doPost() method called");
