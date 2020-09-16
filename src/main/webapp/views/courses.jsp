@@ -1,6 +1,6 @@
 <!-- Including head -->
 <jsp:include page="../includes/head.jsp">
-	<jsp:param name="title" value="All courses" />
+	<jsp:param name="title" value="All courses "/>
 </jsp:include>
 <!-- -------------- -->
 
@@ -8,16 +8,14 @@
 
 <div class="container">	
 	
-	<a href="views/login.jsp" class="my-3 btn btn-primary">Log in</a>
-	
-	<h2 class="my-3">All courses</h2>
+	<h2 class="my-3">All our courses</h2>
 
 	<table id="table" class="table table-striped"> <!-- id used for Datatables plugin -->
 
 		<thead>
 
 			<tr>
-				<td>Course ID</td>
+				<td hidden="">Course ID</td>
 				<td>Name</td>
 				<td>Identifier</td>
 				<td>Duration (hours)</td>
@@ -31,7 +29,7 @@
 			<c:forEach items="${dbCourses}" var="course">
 
 				<tr>
-					<td>${course.id}</td>
+					<td hidden="">${course.id}</td>
 					<td>${course.name}</td>
 					<td>${course.identifier}</td>
 					<td>${course.hours}</td>
@@ -43,6 +41,10 @@
 		</tbody>
 
 	</table>
+	
+	<hr class="my-3">
+	
+	<a href="views/login.jsp" class="my-3 btn btn-info">Log in</a>
 
 </div>
 

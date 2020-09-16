@@ -49,12 +49,12 @@ public class LogInController extends HttpServlet {
 	    session.setAttribute("userLoginDetails", userLoginDetails);
 
 	    // Set feedback
-	    request.setAttribute("feedback", new Feedback("success", "Welcome again!!"));
+	    request.setAttribute("feedback", new Feedback("success", "Welcome again, " + userLoginDetails.getName()));
 
 	    if (userLoginDetails.getRole() == User.ROL_STUDENT) { // Student role
 		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
 
-		LOGGER.info("Student logged: " + userLoginDetails.getName());
+		LOGGER.info("Student logged: " + userLoginDetails.getName() + userLoginDetails.getSurname());
 
 	    } else { // Professor role
 		
@@ -65,7 +65,7 @@ public class LogInController extends HttpServlet {
 		
 		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
 
-		LOGGER.info("Professor logged: " + userLoginDetails.getName());
+		LOGGER.info("Professor logged: " + userLoginDetails.getName() + userLoginDetails.getSurname());
 
 	    }
 

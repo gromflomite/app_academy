@@ -1,7 +1,7 @@
-// Datatables plugin
-$(document).ready( function () {
-    $('#table').DataTable();
-} );
+//// Datatables plugin
+//$(document).ready( function () {
+//    $('#table').DataTable();
+//} );
 
 // Function to ask the user for delete confirmation
 function confirmDelete(name) {

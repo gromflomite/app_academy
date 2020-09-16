@@ -23,7 +23,7 @@
 		<thead>
 
 			<tr>
-				<td>Course ID</td>
+				<td hidden="">Course ID</td>
 				<td>Name</td>
 				<td>Identifier</td>
 				<td>Duration (hours)</td>
@@ -37,7 +37,7 @@
 			<c:forEach items="${coursesByProfessorId}" var="course">
 
 				<tr>
-					<td>${course.id}</td>
+					<td hidden="">${course.id}</td>
 					<td>${course.name}</td>
 					<td>${course.identifier}</td>
 					<td>${course.hours}</td>
@@ -54,30 +54,40 @@
 
 	</table>
 
-	<hr class="my-5">
+	<hr class="my-3">
 
-	<h2>Create a new course</h2>
+	<a class="btn btn-link ml-0 pl-0 my-1" data-toggle="collapse" href="#edit-user-details" role="button">Create new course</a>
 
-	<form id="newCourseForm" action="createCourse" method="post">
+	<div class="collapse" id="edit-user-details">
 
-		<div class="form-group">
-			<label for="courseName">Course name:</label>
-			<input type="text" name="courseName" class="form-control" id="courseName" placeholder="Course name" required>
-		</div>
+		<h2>Create a new course</h2>
 
-		<div class="form-group">
-			<label for="courseIdentifier">Identifier:</label>
-			<input type="text" name="courseIdentifier" class="form-control" id="courseIdentifier" placeholder="Identifier" required>
-		</div>
+		<form id="newCourseForm" action="createCourse" method="post">
 
-		<div class="form-group">
-			<label for="courseHours">Duration:</label>
-			<input type="text" name="courseHours" class="form-control" id="courseHours" placeholder="Hours" required>
-		</div>
+			<div class="form-group">
+				<label for="courseName">Course name:</label>
+				<input type="text" name="courseName" class="form-control" id="courseName" placeholder="Course name" required>
+			</div>
 
-		<button type="submit" class="btn btn-info">Add course</button>
+			<div class="form-group">
+				<label for="courseIdentifier">Identifier:</label>
+				<input type="text" name="courseIdentifier" class="form-control" id="courseIdentifier" placeholder="Identifier" required>
+			</div>
 
-	</form>
+			<div class="form-group">
+				<label for="courseHours">Duration:</label>
+				<input type="text" name="courseHours" class="form-control" id="courseHours" placeholder="Hours" required>
+			</div>
+
+			<button type="submit" class="btn btn-info">Add course</button>
+
+		</form>
+
+	</div>
+
+	<hr class="my-3">
+
+	<a href="logout" class="my-3 btn btn-warning">Log out</a>
 
 </div>
 

@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
 <!-- Datatables plugin -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<!-- Google fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="57x57" href="./img/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="./img/apple-icon-60x60.png">
@@ -45,7 +47,14 @@
 
 <body>
 
-<header>
-<!-- Including the .jsp to show feedback -->
-<%@ include file="feedback.jsp"%>
-</header>
+	<header>
+
+		<div class="container">
+
+			<img class="banner my-3" src="./img/banner.jpg">
+
+		</div>
+
+		<!-- Including the .jsp to show feedback -->
+		<%@ include file="feedback.jsp"%>
+	</header>
