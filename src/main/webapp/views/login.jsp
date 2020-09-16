@@ -1,6 +1,6 @@
 <!-- Including head -->
 <jsp:include page="../includes/head.jsp">
-	<jsp:param name="title" value="Login" />
+	<jsp:param name="title" value="Login " />
 </jsp:include>
 <!-- -------------- -->
 
@@ -14,12 +14,12 @@
 
 		<div class="form-group my-3">
 			<label for="username">Username:</label>
-			<input type="text" name="userName" class="form-control" id="username" placeholder="Enter your username">
+			<input type="text" name="userName" class="form-control" id="username" placeholder="Enter your username" required autofocus>
 		</div>
 
 		<div class="form-group">
 			<label for="password">Password:</label>
-			<input type="password" name="userPassword" class="form-control" id="password" placeholder="Enter your password">
+			<input type="password" name="userPassword" class="form-control" id="password" placeholder="Enter your password" required>
 		</div>
 		
 		<button type="submit" class="btn btn-info mt-3">Log in</button>

@@ -1,6 +1,6 @@
 <!-- Including head -->
 <jsp:include page="../../includes/head.jsp">
-	<jsp:param name="title" value="Student area"/>
+	<jsp:param name="title" value="Student area "/>
 </jsp:include>
 <!-- -------------- -->
 
@@ -8,8 +8,8 @@
 
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
-			<h1 class="display-4">Welcome!!</h1>
-			<p class="lead">You are a student</p>
+			<h1 class="display-4">Welcome, ${userLoginDetails.name}!!</h1>
+			<p class="lead">You have assigned a role of student</p>
 		</div>
 	</div>
 

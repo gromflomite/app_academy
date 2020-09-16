@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import academy.model.DAO.implementations.CourseDAOImpl;
 import academy.model.DAO.implementations.UserDAOImpl;
 import academy.model.pojo.Feedback;
 import academy.model.pojo.User;
@@ -20,8 +21,9 @@ import academy.model.pojo.User;
 public class LogInController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = LogManager.getLogger("appAcademy-log");
+    private static final Logger LOGGER = LogManager.getLogger("appAcademy-log");
     private static final UserDAOImpl userDAO = UserDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
+    private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -56,12 +58,18 @@ public class LogInController extends HttpServlet {
 	    // Set feedback
 	    request.setAttribute("feedback", new Feedback("success", "Welcome again!!"));
 
-	    if (userLoginDetails.getRole() == User.ROL_STUDENT) {
+	    if (userLoginDetails.getRole() == User.ROL_STUDENT) { // Student role
 		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
 
 		LOGGER.info("Student logged: " + userLoginDetails.getName());
 
-	    } else {
+	    } else { // Professor role
+		
+		// Get the courses of this professor
+		int idProfessor = userLoginDetails.getId();
+		
+		session.setAttribute("coursesByProfessorId", courseDAO.listByProfessorId(idProfessor));
+		
 		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
 
 		LOGGER.info("Professor logged: " + userLoginDetails.getName());
@@ -79,7 +87,7 @@ public class LogInController extends HttpServlet {
 	    session.invalidate();
 
 	    // Go back to loging page
-	    request.getRequestDispatcher("views/login.jsp").forward(request, response);
+	    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
 
 	}
 
