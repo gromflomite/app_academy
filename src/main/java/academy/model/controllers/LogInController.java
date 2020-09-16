@@ -27,8 +27,8 @@ public class LogInController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	LOGGER.info("doPost() method called");
-
+	LOGGER.info("doPost() method called");	
+	
 	// Get the values from the view (login.jsp)
 	String userName = request.getParameter("userName");
 	String userPassword = request.getParameter("userPassword");

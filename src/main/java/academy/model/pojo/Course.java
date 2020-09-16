@@ -1,12 +1,25 @@
 package academy.model.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Course {
 
     private int id;
+    
+    @NotBlank
+    @Size(min = 5, max = 99, message = "The course name must have between 5 and 99 characters")
     private String name;
+    
+    @NotBlank
     private String identifier;
+    
+    @Min(value = 1, message = "The value must be positive and at least 1 hour")
     private int hours;
+    
     private int id_professor_course;
+    
     private User professor;
 
     public Course() {

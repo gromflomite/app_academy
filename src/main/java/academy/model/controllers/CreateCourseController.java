@@ -1,6 +1,7 @@
 package academy.model.controllers;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +28,10 @@ public class CreateCourseController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LogManager.getLogger("appAcademy-log");
     private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
+
+    // Validation imports
+    private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private static Validator validator = factory.getValidator();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -50,11 +59,32 @@ public class CreateCourseController extends HttpServlet {
 	    newCourse.setHours(courseHours);
 	    newCourse.setId_professor_course(courseIdProfessor);
 
-	    // Call DAO
-	    courseDAO.create(newCourse);
+	    // Validating entered values in form fields (for validation annotations, see Course.java)
 
-	    // Create feedback
-	    feedback = new Feedback("success", "Course properly created");
+	    // Sending the created object to validate and pushing the validation results in a Set
+	    Set<ConstraintViolation<Course>> violations = validator.validate(newCourse);
+
+	    if (violations.isEmpty()) { // There are NO validations errors !!
+
+		// Call DAO
+		courseDAO.create(newCourse);
+
+		// Create feedback
+		feedback = new Feedback("success", "Course properly created");
+
+	    } else { // There are validations errors !!
+
+		String validationErrorMessages = "<p><b> There are errors in the submited form: </p></b>";
+
+		// Iterating the "violations" Set to extract validations messages and create a String with them in
+		// order to send them back to view as Feedback object
+		for (ConstraintViolation<Course> v : violations) {
+		    validationErrorMessages += "<p><b>" + v.getPropertyPath() + "</b>: " + v.getMessage() + "</p>";
+		}
+
+		feedback = new Feedback("danger", validationErrorMessages);
+
+	    }
 
 	} catch (Exception e) {
 	    LOGGER.error(e);

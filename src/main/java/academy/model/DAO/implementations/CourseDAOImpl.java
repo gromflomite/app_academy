@@ -44,6 +44,8 @@ public class CourseDAOImpl implements CourseDAO {
     }
     // End Singleton pattern ****************************************
 
+    // ----------------------------------------------------------
+
     @Override
     public ArrayList<Course> list() {
 
@@ -86,6 +88,8 @@ public class CourseDAOImpl implements CourseDAO {
 	return courses;
     }
 
+    // ----------------------------------------------------------
+
     @Override
     public ArrayList<Course> listByProfessorId(int idProfessor) {
 
@@ -124,6 +128,8 @@ public class CourseDAOImpl implements CourseDAO {
 	return coursesByProfessorId;
     }
 
+    // ----------------------------------------------------------
+
     @Override
     public Course create(Course newCourse) {
 
@@ -135,8 +141,8 @@ public class CourseDAOImpl implements CourseDAO {
 	    preparedStatement.setInt(3, newCourse.getHours());
 	    preparedStatement.setInt(4, newCourse.getId_professor_course());
 
-	    // Executing the query against the DB and saving the number of affected rows
-	    int affectedRows = preparedStatement.executeUpdate();
+	    // Executing the query
+	    preparedStatement.executeUpdate();
 
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
@@ -147,6 +153,8 @@ public class CourseDAOImpl implements CourseDAO {
 
 	return newCourse;
     }
+
+    // ----------------------------------------------------------
 
     @Override
     public boolean deleteCheckingUser(int idCourseToDelete, int idUser) {
@@ -162,7 +170,7 @@ public class CourseDAOImpl implements CourseDAO {
 	    // Execute que SQL query and get the # of affected rows (value returned by
 	    // executeUpdate())
 	    int dbUpdatedRows = preparedStatement.executeUpdate();
-	    
+
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
 	    if (dbUpdatedRows == 1) { // Course properly deleted
