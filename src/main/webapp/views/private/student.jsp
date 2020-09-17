@@ -15,7 +15,10 @@
 		</div>
 	</div>
 
-	<h2 class="my-3"> <i class="fas fa-bookmark"></i> Enrolled courses</h2>
+	<h2 class="my-3">
+		<i class="fas fa-bookmark"></i>
+		Enrolled courses
+	</h2>
 
 	<table id="table" class="table table-striped">
 		<!-- id used for Datatables plugin -->
@@ -26,9 +29,9 @@
 				<td hidden="">Course ID</td>
 				<td>Name</td>
 				<td>Identifier</td>
-				<td>Duration (hours)</td>
+				<td>Hours</td>
 				<td>Professor</td>
-
+				<td>Students</td>
 			</tr>
 
 		</thead>
@@ -42,7 +45,8 @@
 					<td>${course.name}</td>
 					<td>${course.identifier}</td>
 					<td>${course.hours}</td>
-					<td>${course.professor.name} ${course.professor.surname}</td>
+					<td>${course.professor.name}${course.professor.surname}</td>
+					<td>${course.students_enrolled}</td>
 				</tr>
 
 			</c:forEach>
@@ -54,7 +58,10 @@
 	<hr class="my-5">
 
 
-	<h2 class="mt-3 mb-3"> <i class="far fa-bookmark"></i> Available courses</h2>
+	<h2 class="mt-3 mb-3">
+		<i class="far fa-bookmark"></i>
+		Available courses
+	</h2>
 
 	<table id="table" class="table table-striped">
 		<!-- id used for Datatables plugin -->
@@ -67,6 +74,7 @@
 				<td>Identifier</td>
 				<td>Duration (hours)</td>
 				<td>Professor</td>
+				<td>Students</td>
 				<td>Enroll</td>
 
 			</tr>
@@ -83,9 +91,12 @@
 					<td>${courseAvailable.identifier}</td>
 					<td>${courseAvailable.hours}</td>
 					<td>${courseAvailable.professor.name}${courseAvailable.professor.surname}</td>
+					<td>${courseAvailable.students_enrolled}</td>
 					<td>
 						<a href="enroll?idCourseToEnroll=${courseAvailable.id}" onclick="confirmEnroll('${courseAvailable.name}')">
-							<i class="fas fa-file-signature" title="Enroll on this course"></i>
+							<span style="color: #008000;">
+								<i class="fas fa-user-plus" title="Enroll on this course"></i>
+							</span>
 						</a>
 					</td>
 				</tr>

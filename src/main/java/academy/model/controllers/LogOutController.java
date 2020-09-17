@@ -38,7 +38,7 @@ public class LogOutController extends HttpServlet {
 	    session.invalidate();
 
 	    // Set feedback
-	    request.setAttribute("feedback", new Feedback("success", "You are out, see you soon " + userLoginDetails.getName()));	    
+	    request.setAttribute("feedback", new Feedback("success", "<i class=\"fas fa-sign-out-alt\"></i> You are out, see you soon " + userLoginDetails.getName()));	    
 
 	} catch (Exception e) {
 

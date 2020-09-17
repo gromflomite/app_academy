@@ -20,4 +20,6 @@ public interface CourseDAO {
 
     void enrollStudent(int idStudent, int idCourse) throws Exception; // Enroll the student in a new course
 
+    int countEnrolledStudens(int idCourse); // Count the number of enrolled student in the course
+
 }

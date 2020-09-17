@@ -11,11 +11,14 @@
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
 			<h1 class="display-4">Welcome, ${userLoginDetails.name}!!</h1>
-			<p class="mt-4">Name: ${userLoginDetails.name} ${userLoginDetails.surname}</p>						
+			<p class="mt-4">Name: ${userLoginDetails.name} ${userLoginDetails.surname}</p>
 		</div>
 	</div>
 
-	<h2 class="my-3"> <i class="fas fa-bookmark"></i> Your courses</h2>
+	<h2 class="my-3">
+		<i class="fas fa-bookmark"></i>
+		Your courses
+	</h2>
 
 	<table id="table" class="table table-striped">
 		<!-- id used for Datatables plugin -->
@@ -26,7 +29,8 @@
 				<td hidden="">Course ID</td>
 				<td>Name</td>
 				<td>Identifier</td>
-				<td>Duration (hours)</td>
+				<td>Hours</td>
+				<td>Students</td>
 				<td>Options</td>
 			</tr>
 
@@ -41,9 +45,29 @@
 					<td>${course.name}</td>
 					<td>${course.identifier}</td>
 					<td>${course.hours}</td>
+					<td>${course.students_enrolled}</td>
 					<td>
 						<a href="deleteCourse?idCourseToDelete=${course.id}" onclick="confirmDelete('${course.name}')">
-							<span style = "color: #ff0000;"><i class="fas fa-trash fa-1x" title="Delete this course"></i></span>
+
+							<%-- Check if the course have enrolled students --%>
+							<c:choose>
+
+								<c:when test="${course.students_enrolled>='1'}">
+									<%-- Students enrolled: Is not possible to delete the course --%>
+								</c:when>
+
+								<c:otherwise>
+
+									<span style="color: #ff0000;">
+										<%-- NO students enrolled: Is possible to delete the course --%>
+										<i class="fas fa-trash fa-1x" title="Delete this course"></i>
+									</span>
+
+								</c:otherwise>
+							
+							</c:choose>
+							<%-- End check --%>
+
 						</a>
 					</td>
 				</tr>
@@ -60,7 +84,10 @@
 
 	<div class="collapse" id="edit-user-details">
 
-		<h2> <i class="fas fa-plus-circle"></i> Create a new course</h2>
+		<h2>
+			<i class="fas fa-plus-circle"></i>
+			Create a new course
+		</h2>
 
 		<form id="newCourseForm" action="createCourse" method="post">
 

@@ -25,6 +25,7 @@ public class CourseDAOImpl implements CourseDAO {
     private final String SQL_QUERY_GET_STUDENT_ENROLLED_COURSES = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM students_course AS sc, courses AS c, users AS u WHERE sc.id_student = ? AND sc.id_course = c.id AND c.id_professor = u.id ORDER BY c.id ASC LIMIT 25; ";
     private final String SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses c, users u WHERE c.id_professor = u.id AND c.id_professor = u.id AND c.id NOT IN (SELECT sc.id_course FROM students_course sc WHERE sc.id_student = ?) ORDER BY c.id LIMIT 25; ";
     private final String SQL_QUERY_ENROLL_STUDENT_COURSE = " INSERT INTO students_course (id_student, id_course) VALUES (?, ?); ";
+    private final String SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE = " SELECT COUNT(sc.id_student) FROM students_course sc, users u WHERE sc.id_student = u.id AND sc.id_course = ?; ";
     // End SQL queries **********************************************
 
     // Singleton pattern ********************************************
@@ -67,6 +68,8 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hour_course"));
 		dbCourse.setId_professor_course(dbResultSet.getInt("id_professor_course"));
+		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
+		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -117,6 +120,8 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setId_professor_course(dbResultSet.getInt("id_professor_course"));
+		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
+		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
 
 		// Add all values to course ArrayList
 		coursesByProfessorId.add(dbCourse);
@@ -214,6 +219,8 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hours_course"));
+		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
+		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -260,6 +267,8 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hours_course"));
+		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
+		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -293,7 +302,7 @@ public class CourseDAOImpl implements CourseDAO {
 	    preparedStatement.setInt(1, idStudent);
 	    preparedStatement.setInt(2, idCourse);
 
-	    // Execute que SQL query and get the # of affected rows (value returned by executeUpdate())
+	    // Execute SQL query and get the # of affected rows (value returned by executeUpdate())
 	    int dbUpdatedRows = preparedStatement.executeUpdate();
 
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
@@ -309,6 +318,34 @@ public class CourseDAOImpl implements CourseDAO {
 
 	}
 
+    }
+
+    // ----------------------------------------------------------
+
+    @Override
+    public int countEnrolledStudens(int idCourse) {
+
+	int studentsEnrolled = 0;
+
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE);) {
+
+	    // Replace ? in the SQL query
+	    preparedStatement.setInt(1, idCourse);
+
+	    // Execute the query
+	    ResultSet dbResultSet = preparedStatement.executeQuery();
+
+	    while (dbResultSet.next()) {
+
+		// Get the int value (COUNT() SQL function in the query)
+		studentsEnrolled = dbResultSet.getInt(1);
+	    }
+
+	} catch (Exception e) {
+	    LOGGER.error(e);
+	}
+
+	return studentsEnrolled;
     }
 
     // ----------------------------------------------------------

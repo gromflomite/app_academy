@@ -10,6 +10,8 @@ body {
 	border-radius: 25px;
 }
 /* -------------------------  End generics ------------------------- */
+
+
 #loginButton {
 	margin-bottom: 45%;
 }
@@ -17,6 +19,11 @@ body {
 .jumbotron-fluid {
 	border-radius: 25px;
 }
+
+#flare {	
+    padding-left: 1rem;
+}
+
 
 /* -------------------------  Footer ------------------------- */
 .site-footer {
