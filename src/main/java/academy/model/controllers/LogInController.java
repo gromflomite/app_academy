@@ -27,8 +27,8 @@ public class LogInController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	LOGGER.info("doPost() method called");	
-	
+	LOGGER.info("doPost() method called");
+
 	// Get the values from the view (login.jsp)
 	String userName = request.getParameter("userName");
 	String userPassword = request.getParameter("userPassword");
@@ -49,18 +49,28 @@ public class LogInController extends HttpServlet {
 	    session.setAttribute("userLoginDetails", userLoginDetails);
 
 	    // Set feedback
-	    request.setAttribute("feedback", new Feedback("success", "Welcome again, " + userLoginDetails.getName()));
+	    request.setAttribute("feedback", new Feedback("success", "<i class=\"fas fa-hand-spock\"></i> Welcome again, " + userLoginDetails.getName()));
 
 	    if (userLoginDetails.getRole() == User.ROL_STUDENT) { // Student role
+
+		// Get studen ID in order to call DAO's
+		int idStudent = userLoginDetails.getId();
+
+		// Call DAO - Get the courses where this student is enrolled
+		session.setAttribute("coursesStudentEnrolled", courseDAO.studentEnrolled(idStudent));
+
+		// Call DAO - Get the courses available for this student
+		session.setAttribute("coursesStudentAvailable", courseDAO.studentAvailable(idStudent));
+
 		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
 
 		LOGGER.info("Student logged: " + userLoginDetails.getName() + userLoginDetails.getSurname());
 
 	    } else { // Professor role
-		
-		// Get the courses of this professor
+
 		int idProfessor = userLoginDetails.getId();
-		
+
+		// Call DAO - Get the courses of this professor
 		session.setAttribute("coursesByProfessorId", courseDAO.listByProfessorId(idProfessor));
 		
 		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
@@ -72,7 +82,7 @@ public class LogInController extends HttpServlet {
 	} else { // Entered incorrect login values
 
 	    LOGGER.info("Incorrect login values entered");
-	    
+
 	    // Set feedback
 	    request.setAttribute("feedback", new Feedback("warning", "Username or password not correct!!"));
 

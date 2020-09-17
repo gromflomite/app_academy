@@ -13,3 +13,14 @@ function confirmDelete(name) {
 		event.preventDefault();
 	}
 }
+
+// Function to ask the user for course enroll confirmation
+function confirmEnroll(name) {
+
+	// The confirmEnroll() method returns true if the user clicked "OK", and false otherwise.
+	if (confirm('Do you really want to enroll on this course ' + name + ' ?')) {
+
+	} else {
+		event.preventDefault();
+	}
+}

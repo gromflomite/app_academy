@@ -39,7 +39,7 @@ public class CreateCourseController extends HttpServlet {
 	Course newCourse = new Course();
 	Feedback feedback = new Feedback();
 
-	// Get Java Session
+	// Get user session
 	HttpSession session = request.getSession();
 
 	// Get userId to call DAO methods
@@ -74,7 +74,7 @@ public class CreateCourseController extends HttpServlet {
 
 	    } else { // There are validations errors !!
 
-		String validationErrorMessages = "<p><b> There are errors in the submited form: </p></b>";
+		String validationErrorMessages = "<p> <i class=\"fas fa-exclamation-triangle\"></i> <b> There are errors in the submited form: </p></b>";
 
 		// Iterating the "violations" Set to extract validations messages and create a String with them in
 		// order to send them back to view as Feedback object

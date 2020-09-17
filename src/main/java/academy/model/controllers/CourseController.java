@@ -20,16 +20,17 @@ public class CourseController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LogManager.getLogger("appAcademy-log");
-    private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern    
+    private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	LOGGER.info("doGet() method called");
-	
-	ArrayList<Course> dbCourses = null;
+
+	ArrayList<Course> dbCourses = new ArrayList<Course>();
 
 	try {
 
+	    // Call DAO
 	    dbCourses = courseDAO.list();
 
 	} catch (Exception e) {
@@ -37,6 +38,7 @@ public class CourseController extends HttpServlet {
 
 	} finally {
 
+	    request.setAttribute("numberOfCourses", dbCourses.size()); // To show the numbers of courses in the view
 	    request.setAttribute("dbCourses", dbCourses);
 	    request.getRequestDispatcher("/views/courses.jsp").forward(request, response);
 

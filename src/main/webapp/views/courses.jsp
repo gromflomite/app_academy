@@ -8,7 +8,7 @@
 
 <div class="container">	
 	
-	<h2 class="my-3">All our courses</h2>
+	<h2 class="my-3"> <i class="fab fa-readme"></i> Our courses (${numberOfCourses} currently available)</h2>
 
 	<table id="table" class="table table-striped"> <!-- id used for Datatables plugin -->
 
@@ -44,7 +44,7 @@
 	
 	<hr class="my-3">
 	
-	<a href="views/login.jsp" class="my-3 btn btn-info">Log in</a>
+	<a href="views/login.jsp" class="mt-3 mb-5 btn btn-info">Log in</a>
 
 </div>
 

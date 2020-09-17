@@ -50,7 +50,7 @@ public class DeleteCourseController extends HttpServlet {
 
 	    } else {
 
-		feedback = new Feedback("danger", "The course is not deleted");
+		feedback = new Feedback("danger", "The course is not deleted (check there are not students enrolled)");
 
 	    }
 

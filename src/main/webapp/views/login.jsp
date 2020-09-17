@@ -22,7 +22,7 @@
 			<input type="password" name="userPassword" class="form-control" id="password" placeholder="Enter your password" required>
 		</div>
 		
-		<button type="submit" class="btn btn-info mt-3">Log in</button>
+		<button type="submit" id="loginButton" class="btn btn-info mt-3">Log in</button>
 
 	</form>
 

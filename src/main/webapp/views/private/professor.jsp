@@ -11,11 +11,11 @@
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
 			<h1 class="display-4">Welcome, ${userLoginDetails.name}!!</h1>
-			<p class="mt-4">Name: ${userLoginDetails.name} ${userLoginDetails.surname}</p>
+			<p class="mt-4">Name: ${userLoginDetails.name} ${userLoginDetails.surname}</p>						
 		</div>
 	</div>
 
-	<h2 class="my-3">Your courses</h2>
+	<h2 class="my-3"> <i class="fas fa-bookmark"></i> Your courses</h2>
 
 	<table id="table" class="table table-striped">
 		<!-- id used for Datatables plugin -->
@@ -43,7 +43,7 @@
 					<td>${course.hours}</td>
 					<td>
 						<a href="deleteCourse?idCourseToDelete=${course.id}" onclick="confirmDelete('${course.name}')">
-							<i class="fas fa-trash fa-1x" title="Delete this course"></i>
+							<span style = "color: #ff0000;"><i class="fas fa-trash fa-1x" title="Delete this course"></i></span>
 						</a>
 					</td>
 				</tr>
@@ -56,11 +56,11 @@
 
 	<hr class="my-3">
 
-	<a class="btn btn-link ml-0 pl-0 my-1" data-toggle="collapse" href="#edit-user-details" role="button">Create new course</a>
+	<a class="btn btn-link my-3" data-toggle="collapse" href="#edit-user-details" role="button">Create new course</a>
 
 	<div class="collapse" id="edit-user-details">
 
-		<h2>Create a new course</h2>
+		<h2> <i class="fas fa-plus-circle"></i> Create a new course</h2>
 
 		<form id="newCourseForm" action="createCourse" method="post">
 
