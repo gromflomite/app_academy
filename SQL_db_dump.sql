@@ -33,7 +33,7 @@ CREATE TABLE `courses` (
   UNIQUE KEY `courses_un_identifier` (`identifier`),
   KEY `FK_courses_need_professor` (`id_professor`),
   CONSTRAINT `FK_courses_need_professor` FOREIGN KEY (`id_professor`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='Table of courses.';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COMMENT='Table of courses.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` VALUES (1,'Microsoft Office 2016','I001',50,1),(2,'Experto en Desarrollo de Aplicaciones WEB y Bases de Datos','I002',630,2),(3,'Desarrollo Avanzado con JAVA/JEE','I003',510,3);
+INSERT INTO `courses` VALUES (1,'Exiting VIM','I001',50,1),(2,'Develop your web with COBOL','I002',630,2),(3,'Mastering Stack Overflow','I003',510,3),(25,'Python in one afternoon','I004',5,2),(26,'Assembly for dummies','I005',6,2),(27,'Don\'t understanding JavaScript','I006',17500,2),(29,'Fight to the death against CSS','I007',15000,2),(30,'Test course','T001',15,2),(32,'Test course II','T002',25,2),(35,'Test course III','T003',55,2);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ CREATE TABLE `students_course` (
   KEY `students_course_FK_1` (`id_course`),
   CONSTRAINT `FK_course_needs_student` FOREIGN KEY (`id_student`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_studenst_needs_course` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='Table of students and their courses.';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='Table of students and their courses.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `students_course` (
 
 LOCK TABLES `students_course` WRITE;
 /*!40000 ALTER TABLE `students_course` DISABLE KEYS */;
-INSERT INTO `students_course` VALUES (1,4,1),(2,4,2),(3,5,1),(4,5,3),(5,6,2),(6,6,3),(7,7,1),(8,7,3);
+INSERT INTO `students_course` VALUES (1,4,1),(2,4,2),(3,5,1),(4,5,3),(5,6,2),(6,6,3),(7,7,1),(8,7,3),(19,4,32),(21,4,30),(22,4,26),(23,4,35);
 /*!40000 ALTER TABLE `students_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `users` (
   `password` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_un` (`surname`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='Table of users.';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='Table of users.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Alain','Dextra',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander ','Mirlo',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Manolo','Loriente',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Diego','Velázquez',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Francisco','Goya',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Joan','Miro',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Salvador','Dalí',1,'e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `users` VALUES (1,'Alain','O\'Sullivan',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander ','McCarthy',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Manolo','Davies',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Diego','Velázquez',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Francisco','Goya',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Joan','Miró',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Salvador','Dalí',1,'e10adc3949ba59abbe56e057f20f883e'),(8,'Pablo','Picasso',1,'e10adc3949ba59abbe56e057f20f883e');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-16 19:52:37
+-- Dump completed on 2020-09-17 20:12:17
