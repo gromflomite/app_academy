@@ -55,7 +55,10 @@ public class CourseDAOImpl implements CourseDAO {
 
 	ArrayList<Course> courses = new ArrayList<Course>();
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_ALL_COURSES); ResultSet dbResultSet = preparedStatement.executeQuery()) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_ALL_COURSES); 
+		ResultSet dbResultSet = preparedStatement.executeQuery()) {
 
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
@@ -101,7 +104,9 @@ public class CourseDAOImpl implements CourseDAO {
 
 	ArrayList<Course> coursesByProfessorId = new ArrayList<Course>();
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID)) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID)) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idProfessor);
@@ -141,7 +146,9 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public Course create(Course newCourse) {
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_CREATE_COURSE);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_CREATE_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setString(1, newCourse.getName());
@@ -169,7 +176,9 @@ public class CourseDAOImpl implements CourseDAO {
 
 	boolean courseDeletedOk = false;
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_DELETE_COURSE);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_DELETE_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idCourseToDelete);
@@ -201,7 +210,9 @@ public class CourseDAOImpl implements CourseDAO {
 
 	ArrayList<Course> coursesStudentEnrolled = new ArrayList<Course>();
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_ENROLLED_COURSES);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_ENROLLED_COURSES);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -249,7 +260,9 @@ public class CourseDAOImpl implements CourseDAO {
 
 	ArrayList<Course> coursesStudentAvailable = new ArrayList<Course>();
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -296,7 +309,9 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public void enrollStudent(int idStudent, int idCourse) throws Exception {
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_ENROLL_STUDENT_COURSE);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_ENROLL_STUDENT_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -327,7 +342,9 @@ public class CourseDAOImpl implements CourseDAO {
 
 	int studentsEnrolled = 0;
 
-	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE);) {
+	try (
+		Connection dbConnection = ConnectionManager.getConnection(); 
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idCourse);
