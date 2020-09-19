@@ -87,7 +87,30 @@
 
 				<tr>
 					<td hidden="">${course.id}</td>
-					<td>${courseAvailable.name}</td>
+					<td>${courseAvailable.name}
+
+						<%-- Check if the course have >=3 enrolled students to show a flare --%>
+						<c:choose>
+
+							<c:when test="${courseAvailable.students_enrolled>='3'}">
+								<%-- >=3: Show the flare --%>
+								<span style="color: #ff0000;">
+									<i id="flare" class="fab fa-hotjar" title="Hot course"></i>
+								</span>
+							</c:when>
+
+							<c:otherwise>
+
+								<span style="color: #ff0000;">
+									<%-- <3: No flare --%>
+
+								</span>
+
+							</c:otherwise>
+
+						</c:choose>
+						<%-- End check --%>
+					</td>
 					<td>${courseAvailable.identifier}</td>
 					<td>${courseAvailable.hours}</td>
 					<td>${courseAvailable.professor.name}${courseAvailable.professor.surname}</td>
