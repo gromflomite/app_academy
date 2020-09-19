@@ -67,7 +67,7 @@ public class CreateCourseController extends HttpServlet {
 	    if (violations.isEmpty()) { // There are NO validations errors !!
 
 		// Call DAO
-		courseDAO.create(newCourse);
+		courseDAO.createNewCourse(newCourse);
 
 		// Create feedback
 		feedback = new Feedback("success", "Course properly created");
@@ -92,7 +92,7 @@ public class CreateCourseController extends HttpServlet {
 	} finally {
 
 	    // Call DAO to refresh in session the existing courses for this professor
-	    session.setAttribute("coursesByProfessorId", courseDAO.listByProfessorId(courseIdProfessor));
+	    session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(courseIdProfessor));
 
 	    session.setAttribute("feedback", feedback);
 

@@ -57,10 +57,10 @@ public class LogInController extends HttpServlet {
 		int idStudent = userLoginDetails.getId();
 
 		// Call DAO - Get the courses where this student is enrolled
-		session.setAttribute("coursesStudentEnrolled", courseDAO.studentEnrolled(idStudent));
+		session.setAttribute("coursesStudentEnrolled", courseDAO.listCoursesWhereStudentIsEnrolled(idStudent));
 
 		// Call DAO - Get the courses available for this student
-		session.setAttribute("coursesStudentAvailable", courseDAO.studentAvailable(idStudent));
+		session.setAttribute("coursesStudentAvailable", courseDAO.listCoursesAvailableForStudent(idStudent));
 
 		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
 
@@ -71,7 +71,7 @@ public class LogInController extends HttpServlet {
 		int idProfessor = userLoginDetails.getId();
 
 		// Call DAO - Get the courses of this professor
-		session.setAttribute("coursesByProfessorId", courseDAO.listByProfessorId(idProfessor));
+		session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(idProfessor));
 		
 		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
 

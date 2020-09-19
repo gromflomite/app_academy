@@ -6,20 +6,18 @@ import academy.model.pojo.Course;
 
 public interface CourseDAO {
 
-    ArrayList<Course> list(); // List all courses
+    ArrayList<Course> listAllCourses(); // List all courses
 
-    ArrayList<Course> listByProfessorId(int idProfessor); // List all courses for a given professor
+    ArrayList<Course> listCoursesByProfessorId(int idProfessor); // List all courses for a given professor ID
 
-    Course create(Course newCourse); // Create a new course
+    Course createNewCourse(Course newCourse); // Create a new course
 
-    boolean deleteCheckingUser(int idCourseToDelete, int idUser); // Delete a course checking (into the DB, not Java logic) that the course belongs to the professor
+    boolean deleteCourseCheckingUser(int idCourseToDelete, int idUser); // Delete a course checking (into the DB, not Java logic) that the course belongs to the professor
 
-    ArrayList<Course> studentEnrolled(int idStudent); // List all a student enrolled courses
+    ArrayList<Course> listCoursesWhereStudentIsEnrolled(int idStudent); // List all courses where the student is enrolled
 
-    ArrayList<Course> studentAvailable(int idStudent); // List all courses available for the student
+    ArrayList<Course> listCoursesAvailableForStudent(int idStudent); // List all courses available for the student
 
-    void enrollStudent(int idStudent, int idCourse) throws Exception; // Enroll the student in a new course
-
-    int countEnrolledStudens(int idCourse); // Count the number of enrolled student in the course
+    void enrollStudentInNewCourse(int idStudent, int idCourse) throws Exception; // Enroll the student in a new course
 
 }

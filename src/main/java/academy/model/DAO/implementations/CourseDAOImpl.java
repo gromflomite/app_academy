@@ -18,14 +18,13 @@ public class CourseDAOImpl implements CourseDAO {
     private final static Logger LOGGER = LogManager.getLogger("appAcademy-log");
 
     // SQL queries **************************************************
-    private final String SQL_QUERY_GET_ALL_COURSES = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor', u.role AS 'user_role' FROM courses AS c, users AS u WHERE c.id_professor = u.id; ";
-    private final String SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID = " SELECT c.id AS 'id_course', c.hours AS 'hour_course', c.name AS 'name_course', c.id_professor AS 'id_professor_course', c.identifier AS 'identifier_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses AS c, users AS u WHERE c.id_professor = u.id AND c.id_professor = ?; ";
+    private final String SQL_QUERY_GET_ALL_COURSES = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hour_course', c.id_professor AS 'id_professor_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor', u.role AS 'user_role'  FROM courses AS c, users AS u WHERE c.id_professor = u.id; ";
+    private final String SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.hours AS 'hour_course', c.name AS 'name_course', c.id_professor AS 'id_professor_course', c.identifier AS 'identifier_course', u.id AS 'id_professor', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses AS c, users AS u WHERE c.id_professor = u.id AND c.id_professor = ?; ";
     private final String SQL_QUERY_CREATE_COURSE = " INSERT INTO courses (name, identifier, hours, id_professor) VALUES (?, ?, ?, ?); ";
     private final String SQL_QUERY_DELETE_COURSE = " DELETE FROM courses WHERE courses.id = ? AND courses.id_professor = ?; ";
-    private final String SQL_QUERY_GET_STUDENT_ENROLLED_COURSES = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM students_course AS sc, courses AS c, users AS u WHERE sc.id_student = ? AND sc.id_course = c.id AND c.id_professor = u.id ORDER BY c.id ASC LIMIT 25; ";
-    private final String SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES = " SELECT c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses c, users u WHERE c.id_professor = u.id AND c.id_professor = u.id AND c.id NOT IN (SELECT sc.id_course FROM students_course sc WHERE sc.id_student = ?) ORDER BY c.id LIMIT 25; ";
-    private final String SQL_QUERY_ENROLL_STUDENT_COURSE = " INSERT INTO students_course (id_student, id_course) VALUES (?, ?); ";
-    private final String SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE = " SELECT COUNT(sc.id_student) FROM students_course sc, users u WHERE sc.id_student = u.id AND sc.id_course = ?; ";
+    private final String SQL_QUERY_GET_STUDENT_ENROLLED_COURSES = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM students_course AS sc, courses AS c, users AS u WHERE sc.id_student = ? AND sc.id_course = c.id AND c.id_professor = u.id ORDER BY c.id ASC LIMIT 25; ";
+    private final String SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses c, users u WHERE c.id_professor = u.id AND c.id_professor = u.id AND c.id NOT IN (SELECT sc.id_course FROM students_course sc WHERE sc.id_student = ?) ORDER BY c.id LIMIT 25; ";
+    private final String SQL_QUERY_ENROLL_STUDENT_COURSE = " INSERT INTO students_course (id_student, id_course) VALUES (?, ?); ";    
     // End SQL queries **********************************************
 
     // Singleton pattern ********************************************
@@ -51,14 +50,11 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public ArrayList<Course> list() {
+    public ArrayList<Course> listAllCourses() {
 
 	ArrayList<Course> courses = new ArrayList<Course>();
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_ALL_COURSES); 
-		ResultSet dbResultSet = preparedStatement.executeQuery()) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_ALL_COURSES); ResultSet dbResultSet = preparedStatement.executeQuery()) {
 
 	    LOGGER.debug("SQL query executed: " + preparedStatement);
 
@@ -71,8 +67,7 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hour_course"));
 		dbCourse.setId_professor_course(dbResultSet.getInt("id_professor_course"));
-		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
-		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
+		dbCourse.setStudents_enrolled(dbResultSet.getInt("enrolled_students"));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -100,13 +95,11 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public ArrayList<Course> listByProfessorId(int idProfessor) {
+    public ArrayList<Course> listCoursesByProfessorId(int idProfessor) {
 
 	ArrayList<Course> coursesByProfessorId = new ArrayList<Course>();
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID)) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_COURSES_BY_PROFESSOR_ID)) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idProfessor);
@@ -125,8 +118,7 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setId_professor_course(dbResultSet.getInt("id_professor_course"));
-		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
-		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
+		dbCourse.setStudents_enrolled(dbResultSet.getInt("enrolled_students"));
 
 		// Add all values to course ArrayList
 		coursesByProfessorId.add(dbCourse);
@@ -144,11 +136,9 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public Course create(Course newCourse) {
+    public Course createNewCourse(Course newCourse) {
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_CREATE_COURSE);) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_CREATE_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setString(1, newCourse.getName());
@@ -172,13 +162,11 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public boolean deleteCheckingUser(int idCourseToDelete, int idUser) {
+    public boolean deleteCourseCheckingUser(int idCourseToDelete, int idUser) {
 
 	boolean courseDeletedOk = false;
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_DELETE_COURSE);) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_DELETE_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idCourseToDelete);
@@ -206,13 +194,11 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public ArrayList<Course> studentEnrolled(int idStudent) {
+    public ArrayList<Course> listCoursesWhereStudentIsEnrolled(int idStudent) {
 
 	ArrayList<Course> coursesStudentEnrolled = new ArrayList<Course>();
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_ENROLLED_COURSES);) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_ENROLLED_COURSES);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -230,8 +216,7 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hours_course"));
-		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
-		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
+		dbCourse.setStudents_enrolled(dbResultSet.getInt("enrolled_students"));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -256,13 +241,11 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public ArrayList<Course> studentAvailable(int idStudent) {
+    public ArrayList<Course> listCoursesAvailableForStudent(int idStudent) {
 
 	ArrayList<Course> coursesStudentAvailable = new ArrayList<Course>();
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES);) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -280,8 +263,7 @@ public class CourseDAOImpl implements CourseDAO {
 		dbCourse.setName(dbResultSet.getString("name_course"));
 		dbCourse.setIdentifier(dbResultSet.getString("identifier_course"));
 		dbCourse.setHours(dbResultSet.getInt("hours_course"));
-		// Call countEnrolledStudens() in this same DAO to obtain the number of the students of the course
-		dbCourse.setStudents_enrolled(countEnrolledStudens(dbResultSet.getInt("id_course")));
+		dbCourse.setStudents_enrolled(dbResultSet.getInt("enrolled_students"));
 
 		// Map professor values
 		User dbProfessor = new User();
@@ -307,11 +289,9 @@ public class CourseDAOImpl implements CourseDAO {
     // ----------------------------------------------------------
 
     @Override
-    public void enrollStudent(int idStudent, int idCourse) throws Exception {
+    public void enrollStudentInNewCourse(int idStudent, int idCourse) throws Exception {
 
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_ENROLL_STUDENT_COURSE);) {
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_ENROLL_STUDENT_COURSE);) {
 
 	    // Replace ? in the SQL query
 	    preparedStatement.setInt(1, idStudent);
@@ -334,37 +314,5 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
     }
-
-    // ----------------------------------------------------------
-
-    @Override
-    public int countEnrolledStudens(int idCourse) {
-
-	int studentsEnrolled = 0;
-
-	try (
-		Connection dbConnection = ConnectionManager.getConnection(); 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_COUNT_ENROLLED_STUDENT_COURSE);) {
-
-	    // Replace ? in the SQL query
-	    preparedStatement.setInt(1, idCourse);
-
-	    // Execute the query
-	    ResultSet dbResultSet = preparedStatement.executeQuery();
-
-	    while (dbResultSet.next()) {
-
-		// Get the int value (COUNT() SQL function in the query)
-		studentsEnrolled = dbResultSet.getInt(1);
-	    }
-
-	} catch (Exception e) {
-	    LOGGER.error(e);
-	}
-
-	return studentsEnrolled;
-    }
-
-    // ----------------------------------------------------------
 
 }

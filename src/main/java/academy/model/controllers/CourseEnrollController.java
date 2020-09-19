@@ -41,7 +41,7 @@ public class CourseEnrollController extends HttpServlet {
 	try {
 
 	    // Call DAO
-	    courseDAO.enrollStudent(idStudent, idCourse);
+	    courseDAO.enrollStudentInNewCourse(idStudent, idCourse);
 
 	    // Create feedback
 	    feedback = new Feedback("success", "You are now enrolled on the course");
@@ -57,10 +57,10 @@ public class CourseEnrollController extends HttpServlet {
 	} finally {
 
 	    // Call DAO - Refresh in session the courses where this student is enrolled
-	    session.setAttribute("coursesStudentEnrolled", courseDAO.studentEnrolled(idStudent));
+	    session.setAttribute("coursesStudentEnrolled", courseDAO.listCoursesWhereStudentIsEnrolled(idStudent));
 
 	    // Call DAO - Refresh in session the courses available for this student
-	    session.setAttribute("coursesStudentAvailable", courseDAO.studentAvailable(idStudent));
+	    session.setAttribute("coursesStudentAvailable", courseDAO.listCoursesAvailableForStudent(idStudent));
 
 	    // Add feedbaack to session
 	    session.setAttribute("feedback", feedback);

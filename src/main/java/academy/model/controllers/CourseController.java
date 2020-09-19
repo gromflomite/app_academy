@@ -31,7 +31,7 @@ public class CourseController extends HttpServlet {
 	try {
 
 	    // Call DAO
-	    dbCourses = courseDAO.list();
+	    dbCourses = courseDAO.listAllCourses();
 
 	} catch (Exception e) {
 	    LOGGER.error(e);

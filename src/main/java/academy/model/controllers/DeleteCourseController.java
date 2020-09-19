@@ -44,7 +44,7 @@ public class DeleteCourseController extends HttpServlet {
 	    int idCourseToDelete = Integer.parseInt(request.getParameter("idCourseToDelete"));
 
 	    // Call DAO
-	    if (courseDAO.deleteCheckingUser(idCourseToDelete, userId)) { // DAO method returns true if course is deleted ok
+	    if (courseDAO.deleteCourseCheckingUser(idCourseToDelete, userId)) { // DAO method returns true if course is deleted ok
 
 		feedback = new Feedback("success", "The course was properly deleted");
 
@@ -60,7 +60,7 @@ public class DeleteCourseController extends HttpServlet {
 	} finally {
 
 	    // Call DAO to refresh in session the remaining courses for this professor
-	    session.setAttribute("coursesByProfessorId", courseDAO.listByProfessorId(userId));
+	    session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(userId));
 
 	    request.setAttribute("feedback", feedback); // Add feedback to request
 	    request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
