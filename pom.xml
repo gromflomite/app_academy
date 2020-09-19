@@ -5,7 +5,7 @@
 	<groupId>app_academy</groupId>
 	<artifactId>app_academy</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>app_academy</name>
 
 
@@ -141,4 +141,5 @@
 
 		<finalName>app_academy</finalName>
 	</build>
+	<description>One more project to practice Java and JakartaEE.</description>
 </project>
