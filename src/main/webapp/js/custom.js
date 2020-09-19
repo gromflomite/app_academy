@@ -24,3 +24,14 @@ function confirmEnroll(name) {
 		event.preventDefault();
 	}
 }
+
+// Function to ask the user for course enroll confirmation
+function confirmLeave(name) {
+
+	// The confirmLeave() method returns true if the user clicked "OK", and false otherwise.
+	if (confirm('Do you really want to leave this course ' + name + ' ?')) {
+
+	} else {
+		event.preventDefault();
+	}
+}

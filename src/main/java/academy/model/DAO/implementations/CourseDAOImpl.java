@@ -24,7 +24,8 @@ public class CourseDAOImpl implements CourseDAO {
     private final String SQL_QUERY_DELETE_COURSE = " DELETE FROM courses WHERE courses.id = ? AND courses.id_professor = ?; ";
     private final String SQL_QUERY_GET_STUDENT_ENROLLED_COURSES = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM students_course AS sc, courses AS c, users AS u WHERE sc.id_student = ? AND sc.id_course = c.id AND c.id_professor = u.id ORDER BY c.id ASC LIMIT 25; ";
     private final String SQL_QUERY_GET_STUDENT_AVAILABLE_COURSES = " SELECT (SELECT COUNT(sc.id_student) AS 'students_enrolled' FROM students_course sc WHERE sc.id_course = c.id) AS 'enrolled_students', c.id AS 'id_course', c.name AS 'name_course', c.identifier AS 'identifier_course', c.hours AS 'hours_course', u.name AS 'name_professor', u.surname AS 'surname_professor' FROM courses c, users u WHERE c.id_professor = u.id AND c.id_professor = u.id AND c.id NOT IN (SELECT sc.id_course FROM students_course sc WHERE sc.id_student = ?) ORDER BY c.id LIMIT 25; ";
-    private final String SQL_QUERY_ENROLL_STUDENT_COURSE = " INSERT INTO students_course (id_student, id_course) VALUES (?, ?); ";    
+    private final String SQL_QUERY_ENROLL_STUDENT_COURSE = " INSERT INTO students_course (id_student, id_course) VALUES (?, ?); ";
+    private final String SQL_QUERY_REMOVE_STUDENT_FROM_COURSE = " DELETE FROM students_course WHERE id_course = ? AND id_student = ?; ";
     // End SQL queries **********************************************
 
     // Singleton pattern ********************************************
@@ -314,5 +315,38 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
     }
+
+    // ----------------------------------------------------------
+
+    @Override
+    public boolean removeStudentFromCourse(int idCourse, int idUser) {
+
+	boolean studentRemovedOk = false;
+
+	try (Connection dbConnection = ConnectionManager.getConnection(); PreparedStatement preparedStatement = dbConnection.prepareStatement(SQL_QUERY_REMOVE_STUDENT_FROM_COURSE);) {
+
+	    // Replace ? in the SQL query
+	    preparedStatement.setInt(1, idCourse);
+	    preparedStatement.setInt(2, idUser);
+
+	    // Execute que SQL query and get the # of affected rows (value returned by executeUpdate())
+	    int dbUpdatedRows = preparedStatement.executeUpdate();
+
+	    LOGGER.debug("SQL query executed: " + preparedStatement);
+
+	    if (dbUpdatedRows == 1) { // Student properly removed from course
+
+		studentRemovedOk = true;
+
+	    }
+
+	} catch (Exception e) {
+	    LOGGER.error(e);
+	}
+
+	return studentRemovedOk;
+    }
+
+    // ----------------------------------------------------------
 
 }

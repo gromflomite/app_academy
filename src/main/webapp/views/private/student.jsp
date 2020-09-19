@@ -32,6 +32,8 @@
 				<td>Hours</td>
 				<td>Professor</td>
 				<td>Students</td>
+				<td>Leave</td>
+
 			</tr>
 
 		</thead>
@@ -47,6 +49,13 @@
 					<td>${course.hours}</td>
 					<td>${course.professor.name}${course.professor.surname}</td>
 					<td>${course.students_enrolled}</td>
+					<td>
+						<a href="leaveStudent?idCourse=${course.id}" onclick="confirmLeave('${course.name}')">
+							<span style="color: #FF0000;">
+								<i class="fas fa-sign-out-alt" title="Leave this course"></i>
+							</span>
+						</a>
+					</td>
 				</tr>
 
 			</c:forEach>
@@ -118,7 +127,7 @@
 					<td>
 						<a href="enroll?idCourseToEnroll=${courseAvailable.id}" onclick="confirmEnroll('${courseAvailable.name}')">
 							<span style="color: #008000;">
-								<i class="fas fa-user-plus" title="Enroll on this course"></i>
+								<i class="fas fa-sign-in-alt" title="Enroll on this course"></i>
 							</span>
 						</a>
 					</td>

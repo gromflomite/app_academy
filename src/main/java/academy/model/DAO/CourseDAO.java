@@ -19,5 +19,7 @@ public interface CourseDAO {
     ArrayList<Course> listCoursesAvailableForStudent(int idStudent); // List all courses available for the student
 
     void enrollStudentInNewCourse(int idStudent, int idCourse) throws Exception; // Enroll the student in a new course
+    
+    boolean removeStudentFromCourse(int idCourse, int idUser); // Remove a student from a course
 
 }
