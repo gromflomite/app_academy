@@ -14,7 +14,7 @@ public class ConnectionManager {
 
 	Connection connection = null;
 
-	Class.forName("com.mysql.jdbc.Driver");
+	Class.forName("com.mysql.cj.jdbc.Driver");
 
 	InitialContext initialContext = new InitialContext();
 	
