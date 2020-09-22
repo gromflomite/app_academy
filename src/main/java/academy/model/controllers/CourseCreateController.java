@@ -91,13 +91,11 @@ public class CourseCreateController extends HttpServlet {
 
 	} finally {
 
-	    // Call DAO to refresh in session the existing courses for this professor
-	    session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(courseIdProfessor));
-
+	    // Put the created feedback into response to view
 	    session.setAttribute("feedback", feedback);
 
-	    // Calling the form view passing the feeback and the object
-	    request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
+	    // Redirect flow to ProfessorController (not using getRequestDispatcher in order to keep the URL's clean)
+	    response.sendRedirect(request.getContextPath() + "/professor");
 
 	}
 

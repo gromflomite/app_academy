@@ -59,14 +59,11 @@ public class CourseLeaveStudent extends HttpServlet {
 
 	} finally {
 
-	    // Call DAO - Get the courses where this student is enrolled
-	    session.setAttribute("coursesStudentEnrolled", courseDAO.listCoursesWhereStudentIsEnrolled(idUser));
+	    // Add feedbaack to session
+	    session.setAttribute("feedback", feedback);
 
-	    // Call DAO - Get the courses available for this student
-	    session.setAttribute("coursesStudentAvailable", courseDAO.listCoursesAvailableForStudent(idUser));
-
-	    request.setAttribute("feedback", feedback); // Add feedback to request
-	    request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
+	    // Redirect flow to StudentController (not using getRequestDispatcher in order to keep the URL's clean)
+	    response.sendRedirect(request.getContextPath() + "/student");
 
 	}
 

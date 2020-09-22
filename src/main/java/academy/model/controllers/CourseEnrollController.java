@@ -47,26 +47,19 @@ public class CourseEnrollController extends HttpServlet {
 	    feedback = new Feedback("success", "You are now enrolled on the course");
 
 	} catch (Exception e) {
-	    
-	 // Create feedback
-	 feedback = new Feedback("danger", "We had a problem trying to enroll you on the course, sorry");
-	    
+
+	    // Create feedback
+	    feedback = new Feedback("danger", "We had a problem trying to enroll you on the course, sorry");
+
 	    LOGGER.error(e);
-	    
 
 	} finally {
 
-	    // Call DAO - Refresh in session the courses where this student is enrolled
-	    session.setAttribute("coursesStudentEnrolled", courseDAO.listCoursesWhereStudentIsEnrolled(idStudent));
-
-	    // Call DAO - Refresh in session the courses available for this student
-	    session.setAttribute("coursesStudentAvailable", courseDAO.listCoursesAvailableForStudent(idStudent));
-
 	    // Add feedbaack to session
 	    session.setAttribute("feedback", feedback);
-	    
-	    // Calling the form view passing the feeback and the object
-	    request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
+
+	    // Redirect flow to StudentController (not using getRequestDispatcher in order to keep the URL's clean)
+	    response.sendRedirect(request.getContextPath() + "/student");
 
 	}
 

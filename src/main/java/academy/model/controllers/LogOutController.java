@@ -27,18 +27,18 @@ public class LogOutController extends HttpServlet {
 	HttpSession session = request.getSession();
 
 	// Get user name and surname
-	User userLoginDetails = (User) session.getAttribute("userLoginDetails");	
-	String userFullName = userLoginDetails.getName() + userLoginDetails.getSurname();	
+	User userLoginDetails = (User) session.getAttribute("userLoginDetails");
+	String userFullName = userLoginDetails.getName() + userLoginDetails.getSurname();
 
-	try {   
+	try {
 
 	    LOGGER.info("User logged out: " + userFullName);
-	    
+
 	    // Invalidate user session
 	    session.invalidate();
 
 	    // Set feedback
-	    request.setAttribute("feedback", new Feedback("success", "<i class=\"fas fa-sign-out-alt\"></i> You are out, see you soon " + userLoginDetails.getName()));	    
+	    request.setAttribute("feedback", new Feedback("success", "<i class=\"fas fa-sign-out-alt\"></i> You are out, see you soon " + userLoginDetails.getName()));
 
 	} catch (Exception e) {
 
@@ -49,8 +49,8 @@ public class LogOutController extends HttpServlet {
 
 	} finally {
 
-	    // Send the user back to all courses list
-	    request.getRequestDispatcher("/courses").forward(request, response);
+	    // Send the user back to all courses list using a redirect to clean the URL
+	    response.sendRedirect(request.getContextPath() + "/courses");
 
 	}
 

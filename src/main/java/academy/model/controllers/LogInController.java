@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import academy.model.DAO.implementations.CourseDAOImpl;
 import academy.model.DAO.implementations.UserDAOImpl;
 import academy.model.pojo.Feedback;
 import academy.model.pojo.User;
@@ -22,8 +21,7 @@ public class LogInController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LogManager.getLogger("appAcademy-log");
-    private static final UserDAOImpl userDAO = UserDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern
-    private static final CourseDAOImpl courseDAO = CourseDAOImpl.getInstance();
+    private static final UserDAOImpl userDAO = UserDAOImpl.getInstance(); // Instantiate DAO via Singleton pattern    
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -53,29 +51,17 @@ public class LogInController extends HttpServlet {
 
 	    if (userLoginDetails.getRole() == User.ROL_STUDENT) { // Student role
 
-		// Get studen ID in order to call DAO's
-		int idStudent = userLoginDetails.getId();
+		// Redirect flow to StudentController (not using getRequestDispatcher in order to keep the URL's clean)
+		response.sendRedirect(request.getContextPath() + "/student");
 
-		// Call DAO - Get the courses where this student is enrolled
-		session.setAttribute("coursesStudentEnrolled", courseDAO.listCoursesWhereStudentIsEnrolled(idStudent));
-
-		// Call DAO - Get the courses available for this student
-		session.setAttribute("coursesStudentAvailable", courseDAO.listCoursesAvailableForStudent(idStudent));
-
-		request.getRequestDispatcher("/views/private/student.jsp").forward(request, response);
-
-		LOGGER.info("Student logged: " + userLoginDetails.getName() + userLoginDetails.getSurname());
+		LOGGER.info("Student logged: " + userLoginDetails.getName() + " " + userLoginDetails.getSurname());
 
 	    } else { // Professor role
 
-		int idProfessor = userLoginDetails.getId();
+		// Redirect flow to ProfessorController (not using getRequestDispatcher in order to keep the URL's clean)
+		response.sendRedirect(request.getContextPath() + "/professor");
 
-		// Call DAO - Get the courses of this professor
-		session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(idProfessor));
-		
-		request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
-
-		LOGGER.info("Professor logged: " + userLoginDetails.getName() + userLoginDetails.getSurname());
+		LOGGER.info("Professor logged: " + userLoginDetails.getName() + " " + userLoginDetails.getSurname());
 
 	    }
 

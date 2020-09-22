@@ -59,11 +59,11 @@ public class CourseDeleteController extends HttpServlet {
 
 	} finally {
 
-	    // Call DAO to refresh in session the remaining courses for this professor
-	    session.setAttribute("coursesByProfessorId", courseDAO.listCoursesByProfessorId(userId));
+	    // Put the created feedback into response to view
+	    request.setAttribute("feedback", feedback);
 
-	    request.setAttribute("feedback", feedback); // Add feedback to request
-	    request.getRequestDispatcher("/views/private/professor.jsp").forward(request, response);
+	    // Redirect flow to ProfessorController (not using getRequestDispatcher in order to keep the URL's clean)
+	    response.sendRedirect(request.getContextPath() + "/professor");
 
 	}
 
