@@ -20,7 +20,7 @@ import academy.model.pojo.User;
  * Servlet implementation class DeleteCourseController
  */
 @WebServlet("/deleteCourse")
-public class DeleteCourseController extends HttpServlet {
+public class CourseDeleteController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LogManager.getLogger("appAcademy-log");
