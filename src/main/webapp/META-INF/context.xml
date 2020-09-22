@@ -6,11 +6,11 @@
           auth="Container"
           name="jdbc/academy"
           driverClassName="com.mysql.cj.jdbc.Driver"
-          url="jdbc:mysql://localhost:3306/app_academy"
+          url="jdbc:mysql://localhost:XXXXXXXXXXXXXXXXXXXXXXXXXXX/app_academy"
           username="root"
-          password="secret"
-          maxActive="100"
-          maxIdle="30"
+          password="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          maxActive="15"
+          maxIdle="5"
           maxWait="10000"          
       />
  </Context>

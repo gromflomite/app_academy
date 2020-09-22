@@ -9,6 +9,12 @@
 <div class="container w-25">
 
 	<h2 class="mt-5">Log in</h2>
+	
+	<div class="alert alert-primary text-center my-3" role="alert">
+		<p class="font-weight-bold">Demo account credentials</p>
+		<p><span class="font-weight-bold">User:</span> demo_professor / demo_student</p>
+		<p><span class="font-weight-bold">Password:</span> demo</p>
+	</div>
 
 	<form action="login" method="post">
 
